@@ -27,8 +27,11 @@
             <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
         </plugin>
         
-        <!--自定义分页插件-->
-       <!-- <plugin interceptor=""></plugin>-->
+        <!--PageHelper分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--设置数据库类型-->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
     </plugins>
 
 </configuration>    

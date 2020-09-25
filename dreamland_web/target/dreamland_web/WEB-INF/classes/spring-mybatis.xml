@@ -18,7 +18,7 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--自动扫描-->
-    <context:component-scan base-package="com.feilonkji.www"></context:component-scan>
+    <context:component-scan base-package="com.feilonkji.www.service"></context:component-scan>
 
     <!--加载多个properties外部配置文件-->
     <bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -53,16 +53,13 @@
         <property name="dataSource" ref="dataSource"></property>
         <!--配置mybatis主配置文件-->
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
-
-        <!--自动扫描mapping.xml文件-->
-       <!-- <property name="mapperLocations" value="classpath:mapping/*.xml"></property>-->
     </bean>
 
     <!--dao接口所在包名，spring会自动查找其下的类-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.feilonkji.www.dao"></property>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
+
 
     <!--事务管理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
