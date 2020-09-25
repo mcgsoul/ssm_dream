@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    
+    <!--开启驼峰命名匹配-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    
+    <!--别名-->
+    <typeAliases>
+        <!--默认别名魏：javabean的首字母小写的非限定类名作为它的别名-->
+        <package name="com.feilonkji.www.entity"/>
+    </typeAliases>
+
+    <plugins>
+        <plugin interceptor="tk.mybatis.mapper.mapperhelper.MapperInterceptor">
+            <!--主键自增回写方法，默认值MYSQL-->
+            <property name="IDENTITY" value="MYSQL"/>
+            <!--可选参数有三个，对应0，1，2分别魏SequenceName,ColumnName,PropertyName-->
+            <property name="seqFormat" value="{0}.nextval"/>
+            <!--通用Mapper接口，多个通用接口用逗号隔开-->
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+        </plugin>
+        
+        <!--PageHelper分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--设置数据库类型-->
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
+</configuration>    
