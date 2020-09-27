@@ -13,6 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <link type="text/css" rel="stylesheet" href="${ctx}/css/dreamland.css">
     <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/register.js"></script>
 </head>
 
 <body class="login_bj" style="background-color: grey">
@@ -20,26 +21,26 @@
 <div class="zhuce_body" >
     <div class="zhuce_kong" id="dre_div">
     	<div class="zc">
-        	<div class="bj_bai" style="height: 448px">
+        	<div id="register_left" class="bj_bai" style="height: 448px">
             <h3>欢迎注册</h3>
        	  	  <form action="${ctx}/doRegister" method="post" id="registerForm">
                   <span id="reg_span"></span>
-                <input id="phone" name="phone" type="text" class="kuang_txt phone" placeholder="手机号" onblur="checkPhone();">
+                <input id="phone" name="phone" type="text" class="kuang_txt phone" placeholder="手机号" onblur="checkPhone();"><span id="phone_ok"></span>
                   <br/>
                 <span id="phone_span" style="color: red"></span>
-                <input id="email" name="email" type="text" class="kuang_txt email" placeholder="邮箱" onblur="checkEmail();">
+                <input id="email" name="email" type="text" class="kuang_txt email" placeholder="邮箱" onblur="checkEmail();"><span id="email_ok"></span>
                   <br/>
                   <span id="email_span" style="color: red"></span>
-                <input id="password" name="password" type="password" class="kuang_txt possword" placeholder="密码" onKeyUp="CheckIntensity(this.value)" onblur="checkPassword();">
+                <input id="password" name="password" type="password" class="kuang_txt possword" placeholder="密码" onKeyUp="CheckIntensity(this.value)" onblur="checkPassword();"><span id="password_ok"></span>
                   <br/>
                   <span id="password_span"></span>
-                <input id="nickName" name="nickName" type="text" class="kuang_txt possword" placeholder="昵称" onblur="checkNickName();">
+                <input id="nickName" name="nickName" type="text" class="kuang_txt possword" placeholder="昵称" onblur="checkNickName();"><span id="nickName_ok"></span>
                   <br/>
                   <span id="nickName_span" style="color: red"></span>
                   <%--验证码开始--%>
-                  <input id="code" name="code" type="text" class="kuang_txt yanzm" placeholder="验证码" onblur="checkCode()"/>
+                  <input id="code" name="code" type="text" class="kuang_txt yanzm" placeholder="验证码" onblur="checkCode()"/><span id="code_ok"></span>
                   <div>
-                      <img id="captchaImg" style="cursor: pointer" onclick="changeCaptcha()" title="看不清楚？请点击刷新验证码" align="absmiddle" src="${ctx}/captchaServlet" height="18" width="55"/>
+                      <img id="captchaImg" style="cursor: pointer" onclick="changeCaptcha()" title="看不清楚？请点击刷新验证码" align="absmiddle" src="${ctx}/codeCaptcha" height="18" width="55"/>
                       <a href="javascript:;" onclick="changeCaptcha()" style="color: #666;">
                           <span id="code_span" style="color: red">看不清</span>
                       </a>
@@ -56,7 +57,7 @@
                 
                 </form>
             </div>
-        	<div class="bj_right" style="height: 448px">
+        	<div id="register_right" class="bj_right" style="height: 448px">
             	<p>使用以下账号直接登录</p>
                 <a href="#" class="zhuce_qq">QQ注册</a>
                 <a href="#" class="zhuce_wb">微博注册</a>
@@ -92,7 +93,7 @@
     //更换验证码
     function changeCaptcha() {
         //获取图片标签并更改src图片
-        $("#captchaImg").attr('src','${ctx}/captchaServlet?t=' + (new Date().getTime()));
+        $("#captchaImg").attr('src','${ctx}/codeCaptcha?t=' + (new Date().getTime()));
     }
 
 

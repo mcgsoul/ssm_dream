@@ -33,13 +33,13 @@ public class User {
     /**用户昵称*/
     private String nickName;
 
-    /**用户激活状态*/
+    /**用户激活状态，设置初始状态为0 ，0为未激活状态，1为激活状态*/
     private String state;
 
     /**用户头像*/
     private String imgUrl;
 
-    /**用户是否可用*/
+    /**用户是否可用，设置初始状态为0 ，0为不可用状态，1为可用状态*/
     private String enable;
 
 

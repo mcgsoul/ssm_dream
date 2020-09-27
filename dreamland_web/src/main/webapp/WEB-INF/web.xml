@@ -68,14 +68,14 @@
   </servlet-mapping>
 
   <!--验证码映射-->
-  <servlet>
+<!--  <servlet>
     <servlet-name>CaptchaServlet</servlet-name>
     <servlet-class>com.feilonkji.www.common.CodeCaptchaServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CaptchaServlet</servlet-name>
     <url-pattern>/captchaServlet</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
 
 
   <welcome-file-list>
