@@ -31,7 +31,7 @@
                 <input id="email" name="email" type="text" class="kuang_txt email" placeholder="邮箱" onblur="checkEmail();"><span id="email_ok"></span>
                   <br/>
                   <span id="email_span" style="color: red"></span>
-                <input id="password" name="password" type="password" class="kuang_txt possword" placeholder="密码" onKeyUp="CheckIntensity(this.value)" onblur="checkPassword();"><span id="password_ok"></span>
+                <input id="password" name="password" type="password" class="kuang_txt possword" placeholder="密码" onblur="checkPassword();"><span id="password_ok"></span>
                   <br/>
                   <span id="password_span"></span>
                 <input id="nickName" name="nickName" type="text" class="kuang_txt possword" placeholder="昵称" onblur="checkNickName();"><span id="nickName_ok"></span>

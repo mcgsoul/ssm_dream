@@ -83,7 +83,7 @@
 <body>
 <div class="active-head">
     <div style="line-height: 44px;margin-left: 5px">
-        <span style="color: white;font-family: Arial;font-size: 18px">Dreamland - 梦境网注册成功页面</span>
+        <span style="color: white;font-family: Arial;font-size: 18px">Dreamland - 梦幻家园网注册成功页面</span>
     </div>
     <div class="content">
         <div class="single-clear">
@@ -126,7 +126,7 @@
                 <ul>
                     <li>
                         <a href="#" target="_blank" rel="nofollow">
-                            关于梦境网
+                            关于梦幻家园网
                         </a>
                     </li>
                     <li>

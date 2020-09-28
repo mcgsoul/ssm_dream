@@ -38,6 +38,7 @@ function checkPhone() {
             type: 'post',
             url: 'checkPhone',
             data: {"phone":phone},
+            sync: false,
             dataType: 'json',
             success: function (data) {
                 var val = data['message'];
@@ -81,6 +82,7 @@ function increaseHeight() {
         v++;
     }
 
+
 }
 
 /**
@@ -100,6 +102,7 @@ function reduceHeight() {
             $("#register_right").height(hgt - 30);
             v = 0;
         }
+
     }
 }
 
@@ -123,6 +126,7 @@ function checkCode() {
     }else {
         $.ajax({
            type: 'post',
+           sync: false,
            url: 'checkCode',
            data: {"code":code},
            dataType: 'json',
@@ -168,21 +172,42 @@ function checkProtocol() {
  * @throws
  * @date 2020/9/27
  */
+var sign = false;
 function checkEmail(){
     var email = $("#email").val();
     var exp = /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/;
+
     if(!exp.test(email)){
         $("#email_span").text("邮箱格式有误！请重新输入").css("color","red");
         //根据内容增加高度
         increaseHeight();
         return false;
     }else {
-        $("#email_span").text("");
-        $("#email_ok").text("√").css("color","green");
-        $("reg_span").text("");
-        reduceHeight();
-        return true;
+        $.ajax({
+            type: 'post',
+            url: 'checkEmail',
+            sync: false,
+            data: {'email':email},
+            dataType: 'json',
+            success: function (data) {
+                var val = data.message;
+                if(val == "success"){
+                    $("#email_span").text("");
+                    $("#email_ok").text("√").css("color","green");
+                    $("reg_span").text("");
+                    reduceHeight();
+                    sign = true;
+                }else {
+                    $("#email_span").text("该邮箱已被注册，请重写输入").css("color","red");
+                    //根据内容增加高度
+                    increaseHeight();
+                    sign = false;
+                }
+            }
+        });
+        return sign;
     }
+
 }
 
 /**
@@ -246,15 +271,20 @@ $(function () {
     $("#to_register").click(function () {
         if(!checkProtocol()){
             $("#protocol_span").text("请勾选\"阅读并接受梦幻家园网用户协议\"!").css("color","red");
-
+            increaseHeight();
+            return;
         }else {
             $("#protocol_span").text("");
+            reduceHeight();
         }
        if(checkPhone() && checkPassword() && checkEmail()
            && checkNickName() && checkCode() && checkProtocol()){
+           console.log("表单验证完成···");
            $("#registerForm").submit();
        }else {
-           $("reg_span").text("请将信息填写完整！").css("color","red");
+           $("#reg_span").text("请将信息填写完整！").css("color","red");
+           increaseHeight();
+           return;
        }
     });
 })
