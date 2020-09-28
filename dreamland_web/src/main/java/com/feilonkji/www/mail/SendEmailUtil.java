@@ -43,7 +43,7 @@ public class SendEmailUtil {
         properties.put("mail.smtp.host",host);
         //设置验证
         properties.put("mail.smtp.auth","true");
-        MyAuthenticator myAuthenticator = new MyAuthenticator(from,"namlhuvtoywqdihf");
+        MyAuthenticator myAuthenticator = new MyAuthenticator(from,"***");
         Session session = Session.getDefaultInstance(properties,myAuthenticator);
         //设置邮件信息主体
         MimeMessage message = new MimeMessage(session);
