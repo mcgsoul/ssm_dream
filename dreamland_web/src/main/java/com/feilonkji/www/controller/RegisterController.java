@@ -1,7 +1,9 @@
 package com.feilonkji.www.controller;
 
 import com.fasterxml.jackson.databind.util.ObjectIdMap;
+import com.feilonkji.www.common.Constant;
 import com.feilonkji.www.common.MD5Util;
+import com.feilonkji.www.common.MyThreadPool;
 import com.feilonkji.www.entity.User;
 import com.feilonkji.www.mail.SendEmailUtil;
 import com.feilonkji.www.service.UserService;
@@ -15,11 +17,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 
@@ -87,6 +95,16 @@ public class RegisterController {
         return map;
     }
 
+    /**
+     *
+     * Description: 注册账号
+     * @param model
+     * @param user
+     * @param code
+     * @return java.lang.String
+     * @throws
+     * @date 2020/9/29
+     */
     @RequestMapping(value = "/doRegister")
     public String register(Model model,User user,@RequestParam(value = "code")String code){
         LOG.debug("注册表单提交===>开始注册===>用户信息===>"+user+"验证码===>"+code);
@@ -108,19 +126,30 @@ public class RegisterController {
             //使用每个人的唯一电话号码作为盐
             String salt = user.getPhone();
             //生成邮件激活码
-            String validateCode = MD5Util.encodeToHex( salt + user.getEmail() + user.getPassword());
+            String validateCode = MD5Util.encodeToHex( salt + userNow.getEmail() + userNow.getPassword());
             //存入redis缓存,并设置有效期为24小时，超过有效期则自动失效
-            redisTemplate.opsForValue().set(user.getEmail(),validateCode,24, TimeUnit.HOURS);
-            userService.regist(user);
+            redisTemplate.opsForValue().set(userNow.getEmail(),validateCode,24, TimeUnit.HOURS);
+            String saltEmail = userNow.getEmail();
+            //加密存储
+            String s = MD5Util.encodeToHex(saltEmail + userNow.getPassword());
+            userNow.setPassword(s);
+            userService.regist(userNow);
             LOG.info("注册成功！");
             //发送邮件给用户用于激活账号，耗时操作新开一个线程处理，提高前端反应效率
-            new Thread(new Runnable() {
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    SendEmailUtil.sendEmailMessage(user.getNickName(),user.getEmail(),validateCode);
+                    try {
+                        //发送激活邮件
+                        SendEmailUtil.sendEmailMessage(user.getNickName(),user.getEmail(),validateCode);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }).start();
-            String message = user.getEmail() + "," + validateCode;
+            };
+            //获取线程池对象并提交任务
+            MyThreadPool.getThreadPoolExecutor().submit(runnable);
+            String message = user.getEmail() + "," + validateCode + "," + user.getNickName();
             model.addAttribute("message",message);
             return "/regist/registerSuccess";
         }
@@ -148,4 +177,90 @@ public class RegisterController {
         LOG.debug("检查结束===>邮箱可用状态===>"+map.get("message"));
         return map;
     }
+
+    /**
+     *
+     * Description: 邮件重新发送请求处理
+     * @param email 邮箱
+     * @param code 激活码
+     * @param nickName 用户昵称
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     * @date 2020/9/29
+     */
+    @RequestMapping(value = "/reSendEmail")
+    @ResponseBody
+    public Map<String,Object> reSendEmail(@RequestParam("email") String email,@RequestParam("code") String code,@RequestParam("nickName") String nickName){
+        Map map = new HashMap<String,Object>();
+        //发送邮件
+        try {
+            SendEmailUtil.sendEmailMessage(nickName,email,code);
+            map.put("message","success");
+        } catch (MessagingException e) {
+            LOG.error("重发邮件失败");
+            map.put("message","fail");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     *
+     * Description: 激活账户请求处理
+     * @param model
+     * @return java.lang.String
+     * @throws
+     * @date 2020/9/29
+     */
+    @RequestMapping(value = "/activeCode")
+    public String active(Model model){
+        LOG.debug("===============激活账户================");
+        //获取参数
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        String email = requestAttributes.getRequest().getParameter("email");
+        String validateCode = requestAttributes.getRequest().getParameter("validateCode");
+        //从redis中获取激活码
+        String code = redisTemplate.opsForValue().get(email);
+        LOG.debug("验证邮箱===>"+email+"邮箱激活码===>"+code+"用户链接的激活码===>"+validateCode);
+        //判断是否已经激活
+        User userTrue = userService.findByEmail(email);
+        if(userTrue != null && Constant.STATE_ONE.equals(userTrue.getState())){
+            //已经激活
+            model.addAttribute("success","您已激活，请直接登陆！");
+            return "../login";
+        }
+        //判断激活是否过期
+        if(code == null){
+            //激活码过期
+            model.addAttribute("fail","您的激活码已过期，请重新注册！");
+            userService.deleteByEmail(email);
+            return "/regist/activeFail";
+        }
+        //激活账户
+        if(StringUtil.isNotEmpty(validateCode) && validateCode.equals(code)){
+            //激活码正确
+            userTrue.setEnable(Constant.ENABLE_ONE);
+            userTrue.setState(Constant.STATE_ONE);
+            userService.update(userTrue);
+            model.addAttribute("email",email);
+            return "/regist/activeSuccess";
+        }else {
+            //激活码错误
+            model.addAttribute("fail","您的激活码错误，请重新激活！");
+            return "/regist/activeFail";
+        }
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+

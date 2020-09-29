@@ -9,10 +9,12 @@
 <html>
 <head>
     <title>首页</title>
+
 </head>
 <body>
     <h2>
         <a href="register.jsp">点我注册</a>
+        <a href="login">点我登陆</a>
     </h2>
 </body>
 </html>

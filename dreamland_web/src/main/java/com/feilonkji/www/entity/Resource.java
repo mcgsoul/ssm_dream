@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @title: Resource
  * @Description: 资源类
@@ -17,6 +21,8 @@ import lombok.NoArgsConstructor;
 public class Resource {
 
     /**资源id*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**资源名称*/

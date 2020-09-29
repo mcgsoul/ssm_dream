@@ -12,7 +12,7 @@
 
     <link href="${ctx}/css/zui/css/zui.min.css" rel="stylesheet"/>
     <link href="${ctx}/css/zui/css/zui-theme.min.css" rel="stylesheet"/>
-
+    <script src="${ctx}/js/register.js" type="javascript"></script>
     <style>
         body,html{
             background-color: #EBEBEB;

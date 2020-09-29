@@ -1,3 +1,11 @@
+/**
+ *
+ * Description: 注册js
+ * @author: zr
+ * @date 2020/9/27
+ */
+
+
 
 /**
  *
@@ -288,6 +296,90 @@ $(function () {
        }
     });
 })
+
+/**
+ *
+ * Description: 注册成功后查看邮件，跳转
+ * @param message 邮箱信息
+ * @return
+ * @throws
+ * @date 2020/9/29
+ */
+function lookEmail(message) {
+    var arr = message.split(",");
+    //获取到邮箱
+    var email = arr[0];
+    var emailTail = email.split("@")[1];
+    //根据邮箱跳转到对应的客户端网站
+    if("qq.com" == emailTail){
+        //跳转到qq邮箱客户端
+        location.href = "https://mail.qq.com";
+        return;
+    }else if("163.com" == emailTail){
+        location.href = "https://mail.163.com";
+        return;
+    }else if("162.com" == emailTail){
+        location.href = "https://mail.162.com";
+        return;
+    }else if("sina.com" == emailTail){
+        location.href = "https://mail.sina.com.cn";
+        return;
+    }else if ("sohe" == emailTail){
+        location.href = "https://mail.sohu.com";
+        return;
+    }
+    alert("非常抱歉，检测到您的邮箱不是主流邮箱，请自行登陆查看！");
+}
+
+/**
+ *
+ * Description: 重新发送邮件
+ * @param message 包含邮箱的信息
+ * @return
+ * @throws
+ * @date 2020/9/29
+ */
+function reSendEmail(message) {
+    var arr = message.split(",");
+    //获取到邮箱、激活码
+    var email = arr[0];
+    var code = arr[1];
+    var nickName = arr[2];
+    $.ajax({
+        type: 'post',
+        url: 'reSendEmail',
+        data: {'email':email,'code':code,'nickName':nickName},
+        dataType: 'json',
+        success: function (data) {
+            var s = data.message;
+            if(s == "success"){
+                alert("发送成功！");
+            }
+        }
+    });
+}
+
+/**
+ *
+ * Description: 重新注册，即跳转到注册页面
+ * @param null
+ * @return
+ * @throws
+ * @date 2020/9/29
+ */
+function reRegist() {
+    location.href = '../register.jsp';
+}
+
+/**
+ *
+ * Description: 更换验证码
+ * @param null
+ * @return
+ * @throws
+ * @date 2020/9/29
+ */
+
 
 
 

@@ -3,6 +3,11 @@ package com.feilonkji.www.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.ognl.Evaluation;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @title: Role
@@ -17,6 +22,8 @@ import lombok.NoArgsConstructor;
 public class Role {
 
     /**角色id*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**角色名称*/

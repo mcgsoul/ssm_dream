@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * @title: RoleUser
  * @Description: 角色用户中间类
@@ -18,6 +22,8 @@ import lombok.NoArgsConstructor;
 public class RoleUser {
 
     /**角色用户中间表id*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**用户id*/

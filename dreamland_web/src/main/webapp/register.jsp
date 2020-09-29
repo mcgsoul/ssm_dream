@@ -90,11 +90,12 @@
         document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
     }
 
-    //更换验证码
     function changeCaptcha() {
         //获取图片标签并更改src图片
         $("#captchaImg").attr('src','${ctx}/codeCaptcha?t=' + (new Date().getTime()));
     }
+
+
 
 
 
