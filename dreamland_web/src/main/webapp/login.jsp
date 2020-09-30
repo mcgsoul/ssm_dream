@@ -108,7 +108,9 @@
                         <div class="form-group">
                             <label for="username" class="sr-only">用户名</label>
                             <div class="col-xs-12">
-                                <input type="text" id="phone" name="phone" class="form-control" placeholder="手机号">
+                                <input type="text" onblur="checkTelePhone()" id="phone" name="phone" class="form-control" placeholder="手机号">
+                                <br>
+                                <span id="phone_span"></span>
                                 <input type="hidden" id="tab" name="tab"  value="pho-login">
                             </div>
                         </div>

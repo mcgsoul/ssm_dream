@@ -43,7 +43,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByPhone(String phone) {
-        return null;
+        User user = new User();
+        user.setPhone(phone);
+        return userMapper.selectOne(user);
     }
 
     @Override

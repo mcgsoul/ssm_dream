@@ -24,6 +24,6 @@ public class TestTransaction extends AbstractJUnit4SpringContextTests {
         user.setEmail("2409046585@qq.com");
       //  userService.regist(user);
         userService.findByEmail(user.getEmail());
-
     }
+
 }

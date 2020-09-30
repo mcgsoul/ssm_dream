@@ -33,4 +33,5 @@ public class Constant {
     /**线程池队列数*/
     public static final int THREAD_QUERY_NUM = 10;
 
+
 }

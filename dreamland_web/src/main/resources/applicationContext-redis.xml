@@ -35,7 +35,7 @@
     <!--reids模板配置-->
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory" ref="redisConnectionFactory"></property>
-        <!--对于中午存储需要进行徐丽华操作存储-->
+        <!--对于字符串存储进行序列化操作存储-->
         <property name="keySerializer">
             <bean class="org.springframework.data.redis.serializer.StringRedisSerializer">
             </bean>
