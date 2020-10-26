@@ -56,14 +56,14 @@ function checkTelePhone(){
     telePhone = telePhone.replace(/^\s+|\s+$/g,"");
     if(telePhone == ""){
         $("#phone_span").text("请输入手机号码！");
-        flag3 = true;
+        flag3 = false;
         return flag3;
     }
     //电话号码的正则表达式
     var exp = /^1[3|4|5|6|7][0-9]\d{8}$/;
     if(!exp.test(telePhone)){
         $("#phone_span").text("手机号码非法，请重新输入");
-        flag3 = true;
+        flag3 = false;
         return flag3;
     }else {
         $.ajax({
@@ -76,14 +76,14 @@ function checkTelePhone(){
                 var val = data['message'];
                 if(val == "success"){
                     $("#phone_span").text("该手机号没有注册");
-                    flag3 = true;
+                    flag3 = false;
                 }else {
                     $("#phone_span").text("");
-                    flag3 = false;
+                    flag3 = true;
                 }
             }
         });
-
+        return flag3;
     }
 }
 
@@ -146,7 +146,37 @@ $(function () {
 
 
     });
+    //登陆按钮的绑定事件
+    $("#phone_btn").click(function () {
+        var logSign = checkTelePhone();
+        var logSign_1 = checkVerifyCode();
+        alert(logSign+""+logSign_1);
+        if(logSign && logSign_1){
+            $("phone_span").text("").css("color","red");
+            $("#phone_form").submit();
+        }else {
+            alert("请输入手机号与6位验证码");
+        }
+    });
+
 });
+
+/**
+ *
+ * Description: 检查验证码是否为空
+ * @param null
+ * @return
+ * @throws
+ * @date 2020/10/13
+ */
+function checkVerifyCode() {
+    var value = $("#verifyCode").val();
+    if(value == null || value == ""){
+        return false;
+    }else {
+        return true;
+    }
+}
 
 /**
  *

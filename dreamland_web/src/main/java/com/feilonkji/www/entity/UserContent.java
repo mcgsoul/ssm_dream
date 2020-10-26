@@ -27,7 +27,7 @@ public class UserContent {
     private Long id;
 
     /**用户id*/
-    private Long uId;
+    private Long userId;
 
     /**帖子标题*/
     private String title;

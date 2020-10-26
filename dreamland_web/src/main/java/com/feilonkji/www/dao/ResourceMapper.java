@@ -1,17 +1,14 @@
 package com.feilonkji.www.dao;
 
 import com.feilonkji.www.entity.Resource;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface ResourceMapper {
-    int deleteByPrimaryKey(Long id);
+/**
+ *
+ * Description: 资源接口
+ * @author 邹荣
+ * @date 2020/10/26
+ */
+public interface ResourceMapper extends Mapper<Resource> {
 
-    int insert(Resource record);
-
-    int insertSelective(Resource record);
-
-    Resource selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Resource record);
-
-    int updateByPrimaryKey(Resource record);
 }

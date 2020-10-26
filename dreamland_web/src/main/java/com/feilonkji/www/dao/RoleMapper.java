@@ -1,17 +1,14 @@
 package com.feilonkji.www.dao;
 
 import com.feilonkji.www.entity.Role;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface RoleMapper {
-    int deleteByPrimaryKey(Long id);
+/**
+ *
+ * Description: 角色接口
+ * @author 邹荣
+ * @date 2020/10/26
+ */
+public interface RoleMapper extends Mapper<Role> {
 
-    int insert(Role record);
-
-    int insertSelective(Role record);
-
-    Role selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Role record);
-
-    int updateByPrimaryKey(Role record);
 }

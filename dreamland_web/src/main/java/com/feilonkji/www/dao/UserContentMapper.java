@@ -1,19 +1,14 @@
 package com.feilonkji.www.dao;
 
 import com.feilonkji.www.entity.UserContent;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface UserContentMapper {
-    int deleteByPrimaryKey(Long id);
+/**
+ *
+ * Description: 用户帖子接口
+ * @author 邹荣
+ * @date 2020/10/26
+ */
+public interface UserContentMapper extends Mapper<UserContent> {
 
-    int insert(UserContent record);
-
-    int insertSelective(UserContent record);
-
-    UserContent selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(UserContent record);
-
-    int updateByPrimaryKeyWithBLOBs(UserContent record);
-
-    int updateByPrimaryKey(UserContent record);
 }

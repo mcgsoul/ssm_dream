@@ -17,13 +17,13 @@ import com.aliyuncs.profile.IClientProfile;
  */
 public class SendMessage {
     /**连接阿里短信接口的密钥*/
-    private static String accessKeyId = "***";
-    private static String accessKeySecret = "***";
+    private static String accessKeyId = "**";
+    private static String accessKeySecret = "**";
 
     /**短信签名*/
     private static String setSignName = "梦幻家园网";
     /**短信模板*/
-    private static String messageTempCode = "***";
+    private static String messageTempCode = "**";
 
     /**
      *

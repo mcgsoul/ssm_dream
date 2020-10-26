@@ -91,6 +91,9 @@
                                     <c:if test="${error eq 'active'}">
                                         <span style="color: red" id="back_active">您的账号未激活，请先激活！</span>
                                     </c:if>
+                                    <c:if test="${error eq 'phone_fail'}">
+                                        <span style="color: red" id="back_active">手机验证码错误或过期！</span>
+                                    </c:if>
                                     <span style="color: green" id="normal_span">${success}</span>
                                 </label>
                             </div>

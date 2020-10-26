@@ -1,19 +1,13 @@
 package com.feilonkji.www.dao;
 
 import com.feilonkji.www.entity.Comment;
+import tk.mybatis.mapper.common.Mapper;
+/**
+ *
+ * Description: 评论接口
+ * @author 邹荣
+ * @date 2020/10/26
+ */
+public interface CommentMapper extends Mapper<Comment> {
 
-public interface CommentMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Comment record);
-
-    int insertSelective(Comment record);
-
-    Comment selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(Comment record);
-
-    int updateByPrimaryKeyWithBLOBs(Comment record);
-
-    int updateByPrimaryKey(Comment record);
 }
