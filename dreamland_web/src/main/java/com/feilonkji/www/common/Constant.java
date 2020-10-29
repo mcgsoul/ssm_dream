@@ -21,6 +21,8 @@ public class Constant {
     /**账户可用状态码0，0表示不可用*/
     public static final String ENABLE_ZERO = "0";
 
+    public static final String STATE_MINUS_ONE = "-1";
+
     /**线程池核心线程数*/
     public static final int THREAD_CORE_POOL_SIZE = 10;
 
@@ -33,5 +35,7 @@ public class Constant {
     /**线程池队列数*/
     public static final int THREAD_QUERY_NUM = 10;
 
+    /**分页的单页数据量默认大小*/
+    public static final int INDEX_PAGESIZE = 7;
 
 }

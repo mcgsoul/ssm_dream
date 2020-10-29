@@ -26,6 +26,7 @@ import javax.jms.MapMessage;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,6 +147,15 @@ public class LoginController {
          return "../login";
      }
 
+     /**
+      *
+      * Description: 发送手机验证码
+      * @param model
+      * @param telephone
+      * @return java.util.Map<java.lang.String,java.lang.Object>
+      * @throws
+      * @date 2020/10/29
+      */
      @RequestMapping(value = "/sendSms")
      @ResponseBody
     public Map<String,Object> sendMessage(Model model,final String telephone){
@@ -171,6 +181,23 @@ public class LoginController {
          }
          map.put("msg",true);
          return map;
+     }
+
+     /**
+      *
+      * Description:
+      * @param model
+      * @return java.lang.String
+      * @throws
+      * @date 2020/10/29
+      */
+     @RequestMapping(value = "/loginout")
+     public String exit(Model model, HttpServletRequest request){
+         LOG.info("=============退出登陆=============");
+         //移除登陆用户属性，并刷新使session失效
+         request.getSession().removeAttribute("user");
+         request.getSession().invalidate();
+         return "../login";
      }
 
 

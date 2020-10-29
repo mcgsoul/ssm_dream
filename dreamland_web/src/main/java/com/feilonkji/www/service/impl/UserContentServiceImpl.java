@@ -1,9 +1,11 @@
 package com.feilonkji.www.service.impl;
 
 import com.feilonkji.www.common.PageHelper;
+import com.feilonkji.www.dao.UserContentMapper;
 import com.feilonkji.www.entity.Comment;
 import com.feilonkji.www.entity.UserContent;
 import com.feilonkji.www.service.UserContentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,10 @@ import java.util.List;
  */
 @Service
 public class UserContentServiceImpl implements UserContentService {
+
+    @Autowired
+    private UserContentMapper userContentMapper;
+
     @Override
     public List<UserContent> findAll(UserContent content, Integer pageNum, Integer pageSize) {
         return null;
@@ -44,7 +50,7 @@ public class UserContentServiceImpl implements UserContentService {
 
     @Override
     public List<UserContent> findAll() {
-        return null;
+        return userContentMapper.selectAll();
     }
 
     @Override

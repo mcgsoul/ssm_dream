@@ -1,7 +1,9 @@
 package com.feilonkji.www.service.impl;
 
+import com.feilonkji.www.dao.UpvoteMapper;
 import com.feilonkji.www.entity.Upvote;
 import com.feilonkji.www.service.UpvoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UpvoteServiceImpl implements UpvoteService {
+
+    @Autowired
+    private UpvoteMapper upvoteMapper;
+
     @Override
     public Upvote findByUidAndConId(Upvote upvote) {
         return null;
@@ -36,5 +42,12 @@ public class UpvoteServiceImpl implements UpvoteService {
     @Override
     public void deleteByContentId(Long cid) {
 
+    }
+
+    @Override
+    public Upvote findById(Long id) {
+        Upvote up = new Upvote();
+        up.setId(id);
+        return upvoteMapper.selectOne(up);
     }
 }

@@ -60,4 +60,15 @@ public interface UpvoteService {
      * @date 2020/9/24
      */
     void deleteByContentId(Long cid);
+
+    /**
+     *
+     * Description: 根据id查询
+     * @param id
+     * @return Upvote
+     * @throws
+     * @date 2020/10/29
+     */
+    Upvote findById(Long id);
+
 }

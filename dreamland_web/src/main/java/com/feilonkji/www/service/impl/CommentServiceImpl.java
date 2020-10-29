@@ -1,7 +1,9 @@
 package com.feilonkji.www.service.impl;
 
+import com.feilonkji.www.dao.CommentMapper;
 import com.feilonkji.www.entity.Comment;
 import com.feilonkji.www.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,13 @@ import java.util.List;
  */
 @Service
 public class CommentServiceImpl implements CommentService {
+
+    @Autowired
+    private CommentMapper commentMapper;
+
     @Override
     public int add(Comment comment) {
-        return 0;
+        return commentMapper.insertComment(comment);
     }
 
     @Override
@@ -27,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll(Long content_id) {
-        return null;
+        return commentMapper.selectAll(content_id);
     }
 
     @Override
@@ -37,12 +43,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAllFirstComment(Long content_id) {
-        return null;
+        return commentMapper.findAllFirstComment(content_id);
     }
 
     @Override
     public List<Comment> findAllChildComment(Long content_id, String children) {
-        return null;
+        return commentMapper.findAllChildrenComment(content_id,children);
     }
 
     @Override

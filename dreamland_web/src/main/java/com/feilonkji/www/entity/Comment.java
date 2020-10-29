@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * @title: Comment
- * @Description: 帖子类
+ * @Description: 评论类
  * @Author zr
  * @Date:2020/9/24 19:28
  * @Version 1.8

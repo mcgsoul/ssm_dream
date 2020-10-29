@@ -200,11 +200,11 @@
                             <div style="height: 5px"></div>
                             <div class="stats">
                                 <!-- 笑脸、评论数等 -->
-                                <span class="stats-vote"><i id="${cont.id}" class="number">66</i> 赞</span>
+                                <span class="stats-vote"><i id="${cont.id}" class="number">${cont.upvote}</i> 赞</span>
                                 <span class="stats-comments">
-                    <span class="dash"> · </span>s
+                    <span class="dash"> · </span>
                          <a  onclick="reply(${cont.id},${cont.userId});">
-                              <i class="number" id="comment_num_${cont.id}">5</i> 评论
+                              <i class="number" id="comment_num_${cont.id}">${cont.commentNum}</i> 评论
                           </a>
                     </span>
                             </div>
@@ -279,13 +279,13 @@
                     <c:forEach begin="1" end="${page.pages}" var="pn">
                         <c:if test="${page.pageNum==pn}">
                             <li class="active">
-                                <a href="javascript:void(0);">
+                                <a href="javascript:void(0);" style="color: red">
                                     ${pn}
                                 </a>
                             </li>
                         </c:if>
                         <c:if test="${page.pageNum!=pn}">
-                            <li class="active">
+                            <li>
                                 <a href="${ctx}/index_list?pageNum=${pn}&&id=${user.id}">
                                         ${pn}
                                 </a>
@@ -443,9 +443,8 @@
 
 <script type="text/javascript" src="${ctx}/css/zui/js/zui.min.js"></script>
 
-
 <script type="text/javascript" src="${ctx}/css/reply/js/jquery.flexText.js"></script>
-
+<script type="text/javascript" src="${ctx}/js/indexJsp.js"></script>
 </body>
 <script language=javascript>
     function  showImg(){
@@ -457,6 +456,7 @@
     function personal(uId) {
         this.location =  "${ctx}/list?id="+uId;
     }
+
 
 
 </script>
