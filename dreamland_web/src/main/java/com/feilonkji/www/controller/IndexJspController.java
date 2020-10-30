@@ -2,12 +2,16 @@ package com.feilonkji.www.controller;
 
 import com.fasterxml.jackson.databind.util.ObjectIdMap;
 import com.feilonkji.www.common.Constant;
+import com.feilonkji.www.common.DateUtils;
 import com.feilonkji.www.common.RandStringUtils;
+import com.feilonkji.www.entity.Comment;
 import com.feilonkji.www.entity.Upvote;
 import com.feilonkji.www.entity.User;
 import com.feilonkji.www.entity.UserContent;
+import com.feilonkji.www.service.CommentService;
 import com.feilonkji.www.service.UpvoteService;
 import com.feilonkji.www.service.UserContentService;
+import com.feilonkji.www.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.session.defaults.DefaultSqlSession;
@@ -42,6 +46,12 @@ public class IndexJspController {
 
     @Autowired
     private UserContentService userContentService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UpvoteService upvoteService;
@@ -142,6 +152,103 @@ public class IndexJspController {
         userContentService.updateById(userContent);
         map.put("data","success");
         LOG.debug("赞或踩===>结束");
+        return map;
+    }
+
+    /**
+     *
+     * Description: 查询帖子的评论以及子评论
+     * @param content_id
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     * @date 2020/10/30
+     */
+    @RequestMapping(value = "/reply")
+    @ResponseBody
+    public Map<String,Object> reply(Long content_id){
+        Map map = new HashMap<String,Object>();
+        //查询所有的帖子的一级评论
+        List<Comment> list = commentService.findAllFirstComment(content_id);
+        if(list != null && list.size() > 0){
+            for(Comment c :list){
+                //查询每一个评论的子评论
+                List<Comment> comments = commentService.findAllChildComment(c.getConId(), c.getChildren());
+                if(comments != null && comments.size() > 0){
+                    for(Comment com :comments){
+                        if(com.getById() != null){
+                            //拿到被评论者用户的信息
+                            User byUser = userService.findById(com.getById());
+                            com.setByUser(byUser);
+                        }
+                    }
+                }
+                //设置子评论集合
+                c.setComList(comments);
+            }
+        }
+        map.put("list",list);
+        return map;
+    }
+
+    /**
+     *
+     * Description: 帖子评论请求处理，同时可以点赞评论
+     * @param request
+     * @param id 评论id
+     * @param content_id 帖子id
+     * @param uid 当前评论用户id
+     * @param bid 被评论的用户id
+     * @param oSize 评论内容
+     * @param comment_time 评论的时间
+     * @param upvote 评论点赞数
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     * @date 2020/10/30
+     */
+    @RequestMapping(value = "/comment")
+    @ResponseBody
+    public Map<String,Object> comment(HttpServletRequest request,@RequestParam(value = "id",required = false) Long id,
+                                      @RequestParam(value = "content_id",required = false) Long content_id,
+                                      @RequestParam(value = "uid",required = false) Long uid,
+                                      @RequestParam(value = "by_id",required = false) Long bid,
+                                      @RequestParam(value = "oSize",required = false)String oSize,
+                                      @RequestParam(value = "comment_time",required = false)String comment_time,
+                                      @RequestParam(value = "upvote",required = false)Integer upvote){
+        Map map = new HashMap<String,Object>();
+        //检查登陆
+        User user = (User) request.getSession().getAttribute("user");
+        if(user == null){
+            map.put("data","fail");
+            return map;
+        }
+        //id为空则表示是添加评论
+        if(id == null){
+            Date date = DateUtils.StringToDate(comment_time,"yyyy-MM-dd HH:mm:ss");
+            //封装数据到评论对象，可以直接再方法的参数中设置评论对象，只要保证参数名与属性名一致，即可自动封装
+            Comment comment = new Comment();
+            comment.setComContent(oSize);
+            comment.setComId(uid);
+            if(upvote == null){
+                upvote = 0;
+            }
+            comment.setById(bid);
+            comment.setUpvote(upvote);
+            User u = userService.findById(uid);
+            comment.setUser(u);
+            commentService.add(comment);
+            map.put("data",comment);
+            //查询到评论的帖子信息
+            UserContent userContent = userContentService.findById(content_id);
+            Integer num = userContent.getCommentNum();
+            //更改帖子的评论数，使得其加1
+            userContent.setCommentNum(num + 1);
+            userContentService.updateById(userContent);
+        }else {
+            //评论点赞
+            Comment c = commentService.findById(id);
+            c.setUpvote(upvote);
+            commentService.update(c);
+        }
         return map;
     }
 

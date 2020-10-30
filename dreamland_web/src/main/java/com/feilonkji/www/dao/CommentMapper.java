@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface CommentMapper extends Mapper<Comment> {
 
-    /**
+  /**
      *
      * Description: 根据帖子的id查询所有评论
      * @param cid 帖子的id
@@ -22,7 +22,7 @@ public interface CommentMapper extends Mapper<Comment> {
      * @throws
      * @date 2020/10/29
      */
-    List<Comment> selectAll(@Param("cid") long cid);
+    List<Comment> selectAllComment(@Param("cid") long cid);
 
     /**
      *
@@ -45,7 +45,7 @@ public interface CommentMapper extends Mapper<Comment> {
     List<Comment> findAllChildrenComment(@Param("cid") long cid,@Param("children") String children);
 
     /**
-     *
+     *s
      * Description: 插入评论并返回主键id，返回值为影响的行数 ，返回的主键id再Comment对象中
      * @param comment 返回后包含主键id的对象
      * @return int 影响的行数

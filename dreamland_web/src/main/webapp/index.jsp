@@ -241,7 +241,7 @@
                                 <!--评论区域 begin-->
                                 <div class="reviewArea clearfix">
                                     <textarea class="content comment-input" placeholder="Please enter a comment&hellip;" onkeyup="keyUP(this)"></textarea>
-                                    <a class="plBtn" id="comment_${cont.id}" onclick="_comment(${cont.id},${user.id==null?0:user.id},${cont.userId})" style="color: white;cursor: pointer;">评论</a>
+                                    <a class="plBtn" id="comment_${cont.id}" onclick="_comment(${cont.id},${user.id==null?0:user.id},${cont.userId});" style="color: white;cursor: pointer;">评论</a>
                                 </div>
                                 <!--评论区域 end-->
                                 <div class="comment-show-first" id="comment-show-${cont.id}">

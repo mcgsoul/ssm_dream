@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAll(Long content_id) {
-        return commentMapper.selectAll(content_id);
+        return commentMapper.selectAllComment(content_id);
     }
 
     @Override

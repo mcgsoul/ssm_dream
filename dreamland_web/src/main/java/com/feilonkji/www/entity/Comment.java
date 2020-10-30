@@ -3,13 +3,13 @@ package com.feilonkji.www.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @title: Comment
@@ -49,5 +49,18 @@ public class Comment {
 
     /**评论内容*/
     private String comContent;
+
+    /**评论者*/
+    @Transient
+    private User user;
+
+    /**被评论者*/
+    @Transient
+    private User byUser;
+
+    /**子评论集合*/
+    @Transient
+    private List<Comment> comList;
+
 
 }
